@@ -1,12 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Home Page</title>
 </head>
 <body>
-    <h2>Employee Home Page</h2>
-    <hr>
+<h2>Employee Home Page</h2>
+<hr>
+<p>
+    Welcome All...!!!
+</p>
+<hr>
+<!--    Display user name and role-->
+<p>
+    User: <span sec:authentication="principal.username"></span>
+    <br><br>
+    Role: <span sec:authentication="principal.authorities"></span>
+</p>
+<hr>
+<!--Add Link to point /leaders....and /systems this is only fro the manager-->
+<div sec:authorize="hasRole('MANAGER')">
+    <p>
+        <a th:href="@{/leaders}">Leadership Meeting</a>
+        (Only for Manager...)
+    </p>
+</div>
+<div sec:authorize="hasRole('ADMIN')">
+    <p>
+        <a th:href="@{/systems}">IT System Meeting</a>
+        (Only for Admins...)
+    </p>
+</div>
+
+<form action="#" th:action="@{/logout}" method="post">
+    <input type="submit" value="logout">
+</form>
 </body>
 </html>
